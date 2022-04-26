@@ -2,7 +2,7 @@
     <?php if(isset($_SESSION["success"])){ ?>
         <script> console.log("success");</script>
         <!-- signin success -->
-        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "user-signup-sucess")){  ?>
+        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "user-signup-success")){  ?>
         <script>
             swal({
                 title: "SIGN UP SUCCESSFUL!",
@@ -12,7 +12,7 @@
         </script>
         <?php }//end if ?>
         <!-- delete success -->
-        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "edituser-delete-sucess")){  ?>
+        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "edituser-delete-success")){  ?>
         <script>
             swal({
                 title: "DELETE USER SUCCESS!",

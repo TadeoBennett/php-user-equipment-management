@@ -26,7 +26,7 @@ if(isset($_POST["edit-user-selected"])){
   //uses the ID of the user and the database connection to delete the user
   deleteUserWithID($conn, $_POST["userchangeID"]);
 
-  $_SESSION["success"]["description"] = "edituser-delete-sucess";
+  $_SESSION["success"]["description"] = "edituser-delete-success";
   header("Location: ../views/view.tables.php");
   exit();
 
@@ -66,7 +66,7 @@ if(isset($_POST["edit-user-selected"])){
         header("Location: ../views/view.edit-user.php");
         exit();
     }else if($checkdeletion == "success"){
-        $_SESSION["success"]["description"] = "edituser-delete-sucess";
+        $_SESSION["success"]["description"] = "edituser-delete-success";
         unset($_SESSION["userEditDetails"]); //delete the sesssion variable with the details of the user to edit
         header("Location: ../views/view.tables.php");
         exit();
