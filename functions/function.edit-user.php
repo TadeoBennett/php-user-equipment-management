@@ -9,7 +9,8 @@ if(isset($_POST["edit-user-selected"])){
   //uses the ID of the user and the database connection to create and save an array with the user's details
   $_SESSION["userEditDetails"] = returnUserDetailsArrayForEditing($conn, $_POST["userchangeID"]);
   if ($_SESSION["userEditDetails"] == false) {
-    header("Location: ../views/view.edit-user.php?error=noarray");
+    $_SESSION["failure"]["description"] = "edituser-noarray-error";
+    header("Location: ../views/view.tables.php");
     exit();
   }else{
     //edit user page form should be accessible
@@ -21,10 +22,12 @@ if(isset($_POST["edit-user-selected"])){
 }else if(isset($_POST["delete-user-selected"])){
   require_once '../functions.php';
   require_once './function.dbh.php';
+
   //uses the ID of the user and the database connection to delete the user
   deleteUserWithID($conn, $_POST["userchangeID"]);
 
-  header("Location: ../views/view.notifications.php?deletesuccess");
+  $_SESSION["success"]["description"] = "edituser-delete-sucess";
+  header("Location: ../views/view.tables.php");
   exit();
 
 }else if(isset($_POST["edit-user-submit"])){
@@ -39,7 +42,12 @@ if(isset($_POST["edit-user-selected"])){
   $email = $_POST["em"];
   $sex = $_POST["sex"];
   $password = $_POST["pwd"];
-  $makeadmin = $_POST["makeadmin"];
+  $makeadmin = "";
+  if(isset($_POST["makeadmin"])){
+    if($_POST["makeadmin"] == "yes"){
+      $makeadmin = "yes";
+    }
+  }
   $deleteUser = "";
   if(isset($_POST["dltuseroption"])){
     $deleteUser = $_POST["dltuseroption"];
@@ -54,11 +62,13 @@ if(isset($_POST["edit-user-selected"])){
   if($deleteUser == "yes"){
     $checkdeletion =  deleteUserWithID($conn, $_SESSION["userEditDetails"]["Users_id"]);
     if($checkdeletion == "error"){
-        header("Location: ../views/view.notifications.php?deleteerror");
+        $_SESSION["failure"]["description"] = "edituser-deleteuser-error";
+        header("Location: ../views/view.edit-user.php");
         exit();
     }else if($checkdeletion == "success"){
+        $_SESSION["success"]["description"] = "edituser-delete-sucess";
         unset($_SESSION["userEditDetails"]); //delete the sesssion variable with the details of the user to edit
-        header("Location: ../views/view.notifications.php?deletesuccess");
+        header("Location: ../views/view.tables.php");
         exit();
     }
   }
@@ -72,13 +82,15 @@ if(isset($_POST["edit-user-selected"])){
 
   //validate employee id
   if(!validateEmployeeId($employeeid)){
-    header("Location: ../views/view.add-user.php?error=invalidID");
+    $_SESSION["failure"]["description"] = "staffID-edituser-error";
+    header("Location: ../views/view.edit-user.php");
     exit();
   }
 
   //validate firstname and lastname
   if(!validateFirstname($firstname) ||  !validateLastName($lastname)){
-    header("Location: ../views/view.add-user.php?error=emptyNameFields");
+    $_SESSION["failure"]["description"] = "names-edituser-error";
+    header("Location: ../views/view.edit-user.php");
     exit();
   }
 
@@ -90,8 +102,9 @@ if(isset($_POST["edit-user-selected"])){
   if(strlen($password) != 0){ //a new password was entered so check its validity
     //check if password is the right length
     if(!validatePasswordLength($password)){
+      $_SESSION["failure"]["description"] = "password-length-edituser-error";
       //email should not be added if it exists
-      header("Location: ../views/view.edit-user.php?error=passwordLengthError");
+      header("Location: ../views/view.edit-user.php");
       exit();
     }
     $passwordChangeFlag = true;
@@ -101,17 +114,25 @@ if(isset($_POST["edit-user-selected"])){
     $userEdit = editUserWithID($conn, $_SESSION["userEditDetails"]["Users_id"], $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $userLevel, $password, $passwordChangeFlag);
 
     if ($userEdit == "stmterror") {
-      header("Location: ../views/view.notifications.php?error=stmtFailed");
+      $_SESSION["failure"]["description"] = "stmt0-edituser-error";
+      header("Location: ../views/view.edit-user.php?error=stmtFailed");
       exit();
     } else if ($userEdit == "success") {
+      $_SESSION["success"]["description"] = "edituser-edit-success";
       unset($_SESSION["userEditDetails"]);
-      header("Location: ../views/view.notifications.php?edituser=success");
+      header("Location: ../views/view.tables.php");
       exit();
     }else if ($userEdit == "stmterror1") {
-      header("Location: ../views/view.notifications.php?error=stmtFailed1");
+      $_SESSION["failure"]["description"] = "stmt1-edituser-error";
+      header("Location: ../views/view.edit-user.php?error=stmtFailed1");
       exit();
     } else if ($userEdit == "stmterror2") {
-      header("Location: ../views/view.notifications.php?error=stmtFailed2");
+      $_SESSION["failure"]["description"] = "stmt2-edituser-error";
+      header("Location: ../views/view.edit-user.php?error=stmtFailed2");
+      exit();
+    }else if ($userEdit == "stmterror3") {
+      $_SESSION["failure"]["description"] = "stmt3-edituser-error";
+      header("Location: ../views/view.edit-user.php?error=stmtFailed3");
       exit();
     }
   
@@ -122,9 +143,9 @@ if(isset($_POST["edit-user-selected"])){
     session_start();
   }
   unset($_SESSION["userEditDetails"]);
-  header("Location: ../views/view.edit-user.php?deletedEditKey");
+  header("Location: ../views/view.edit-user.php");
   exit();
 }else{
-  header("Location: ../views/view.edit-user.php?default");
+  header("Location: ../views/view.edit-user.php");
   exit();
 }

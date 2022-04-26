@@ -54,14 +54,14 @@
         </div>
         <div class="col-md-4 mb-4 mx-4 form-check form-switch" id="makeadminoption">
           <br>
-          <input type="checkbox" id="makeadminOption" name="makeadmin" value="yes" class="form-check-input" <?php if(isset($_SESSION["userEditDetails"]) && $_SESSION["currentPage"] == "edit-user"){if($_SESSION["userEditDetails"]["User_level_id"] == '1'){echo 'checked';} if($_SESSION["userEditDetails"]["User_level_id"] != '1'){ echo 'style="display:none;"';} }?>>
-          <label for="makeadminOption" class="form-check-label mx-3 text-lg" <?php if(isset($_SESSION["userEditDetails"])){if($_SESSION["userEditDetails"]["User_level_id"] != '1'){ echo 'style="display:none;"';}} ?>> Make this user an <u><strong>administrator</strong></u>?</label><br>
+          <input type="checkbox" id="makeadminOption" name="makeadmin" value="yes" class="form-check-input" <?php if(isset($_SESSION["userEditDetails"]) && $_SESSION["currentPage"] == "edit-user"){if($_SESSION["userEditDetails"]["User_level_id"] == 1){echo 'checked';} if($_SESSION["userRecord"]["User_level_id"] != 1){ echo 'style="display:none;"';} }?>>
+          <label for="makeadminOption" class="form-check-label mx-3 text-lg" <?php if(isset($_SESSION["userEditDetails"])){if($_SESSION["userRecord"]["User_level_id"] != 1){ echo ' style="display:none;" ';} } ?>> Make this user an <u><strong>administrator</strong></u>?</label><br>
         </div>
         <div class="col-md-4 mb-4 mx-4 form-check form-switch" id="deleteuseroption">
           <br>
-          <input type="checkbox" id="deleteOption" name="dltuseroption" value="yes" class="form-check-input" <?php if(isset($_SESSION["userEditDetails"])){if($_SESSION["userEditDetails"]["User_level_id"] != '1'){ echo 'style="display:none;"';}} ?> >
+          <input type="checkbox" id="deleteOption" name="dltuseroption" value="yes" class="form-check-input" <?php if(isset($_SESSION["userEditDetails"])){if($_SESSION["userRecord"]["User_level_id"] != 1){ echo ' style="display:none;" ';}} ?> >
           <!-- present messagebox to ensure the user confirms to delete -->
-          <label for="deleteOption" class="form-check-label text-lg" <?php if(isset($_SESSION["userEditDetails"])){if($_SESSION["userEditDetails"]["User_level_id"] != '1'){ echo 'style="display:none;"';}} ?> ><u><strong>Delete</strong></u> this user? </label><br>
+          <label for="deleteOption" class="form-check-label text-lg" <?php if(isset($_SESSION["userEditDetails"])){if($_SESSION["userRecord"]["User_level_id"] != 1){ echo ' style="display:none;" ';}} ?> ><u><strong>Delete</strong></u> this user? </label><br>
         </div>
         <div class="form-group col-md-6" id="repeatpwd-formgroup">
           <label for="repeatPWD">Repeat Password</label>

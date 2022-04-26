@@ -333,6 +333,8 @@ function deleteUserWithID($conn, $user_id){
 //returns "success" if a user's details were successfully edited
 function editUserWithID($conn, $user_id_to_edit, $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $user_level, $password, $passwordChangeFlag){
   if ($passwordChangeFlag == true) { //password was changed 
+    // echo "$user_id_to_edit, $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $user_level, $password, $passwordChangeFlag";
+    // exit();
     $sql = "UPDATE users SET Employee_id = ?, User_name = ?, First_name = ?, Last_name = ?, Email = ?, Department_id = ?,
     Job_Title = ?, Sex = ?, User_level_id = ?, Password = ?  WHERE Users_id = $user_id_to_edit;";
     
@@ -343,8 +345,8 @@ function editUserWithID($conn, $user_id_to_edit, $employeeid, $username, $firstn
 
     $password = password_hash($password, PASSWORD_DEFAULT); //hashing new password
     mysqli_stmt_bind_param($stmt, "issssissis", $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $user_level, $password);
-    if ($stmt->execute()) { 
-      return "stmterror";
+    if (!$stmt->execute()) { 
+      return "stmterror1";
     }
     mysqli_stmt_close($stmt);
     return "success";
@@ -355,12 +357,12 @@ function editUserWithID($conn, $user_id_to_edit, $employeeid, $username, $firstn
     
     $stmt = mysqli_stmt_init($conn);
     if (!mysqli_stmt_prepare($stmt, $sql)) {
-      return "stmterror1";
+      return "stmterror2";
     }
 
     mysqli_stmt_bind_param($stmt, "issssissi", $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $user_level);
     if (!($stmt->execute())) { 
-      return "stmterror2";
+      return "stmterror3";
     }
     mysqli_stmt_close($stmt);
 

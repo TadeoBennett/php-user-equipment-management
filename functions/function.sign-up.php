@@ -23,14 +23,14 @@ if(isset($_POST["sign-up-submit"])){
   //validate employee id
   if(!validateEmployeeId($employeeid)){
     $_SESSION["failure"]["description"] = "staffID-signup-error";
-    header("Location: ../views/view.sign-up.php?error=invalidID");
+    header("Location: ../views/view.sign-up.php");
     exit();
   }
 
   //validate firstname and lastname
   if(!validateFirstname($firstname) ||  !validateLastName($lastname)){
     $_SESSION["failure"]["description"] = "names-signup-error";
-    header("Location: ../views/view.sign-up.php?error=emptyNameFields");
+    header("Location: ../views/view.sign-up.php");
     exit();
   }
 
@@ -41,21 +41,21 @@ if(isset($_POST["sign-up-submit"])){
   if(emailExists($conn, $email)){
     $_SESSION["failure"]["description"] = "email-exists-signup-error";
     //email should not be added if it exists
-    header("Location: ../views/view.sign-up.php?error=emailExists");
+    header("Location: ../views/view.sign-up.php");
     exit();
   }
 
   //check if password is the right length
   if(!validatePasswordLength($password)){
     $_SESSION["failure"]["description"] = "password-length-signup-error";
-    header("Location: ../views/view.sign-up.php?error=passwordLengthError");
+    header("Location: ../views/view.sign-up.php");
     exit();
   }
 
   //check if password is valid
   if(!validateSignUpPasswords($password, $passwordRepeated)){
     $_SESSION["failure"]["description"] = "password-repeat-signup-error";
-    header("Location: ../views/view.sign-up.php?error=passwordDontMatch");
+    header("Location: ../views/view.sign-up.php");
     exit();
   }
 
@@ -64,11 +64,11 @@ if(isset($_POST["sign-up-submit"])){
 
   if ($userCreation == "stmterror") {
     $_SESSION["failure"]["description"] = "stmt-signup-error";
-    header("Location: ../views/view.sign-up.php?error=stmtFailed");
+    header("Location: ../views/view.sign-up.php");
     exit();
   } else if ($userCreation == "success") {
     $_SESSION["success"]["description"] = "user-signup-sucess";
-    header("Location: ../views/view.sign-in.php?signup=success");
+    header("Location: ../views/view.sign-in.php");
     exit();
   }
 

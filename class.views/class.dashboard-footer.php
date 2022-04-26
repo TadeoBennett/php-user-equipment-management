@@ -130,6 +130,7 @@
 <script src="../includes/js/load-tables.js"></script>
 <script src="../includes/js/specsform-display.js"></script>
 
+<?php include "../includes/notifications.php"; ?>
 
 </body>
 
