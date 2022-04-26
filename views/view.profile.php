@@ -103,12 +103,11 @@ $_SESSION["currentPage"] = "profile";
               <div class="card-header pb-0">
                   <div class="row">
                     <div class="col-md-8 d-flex  align-items-start">
-                      <h6 class="mb-0 me-3">Profile Information</h6>
-                      <div class="col-md-4 text-end">
-                        <a href="javascript:;">
-                          <i class="fas fa-user-edit text-secondary text-lg" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile Information"></i>
-                        </a>
-                      </div>
+                      <h6 class="mb-0 me-3 p-2" p-0>Profile info</h6>
+                      <form action="../functions/function.edit-user.php" method="post">
+                        <input name="userchangeID" value="<?php if (isset($_SESSION["userRecord"])){echo $_SESSION["userRecord"]["Users_id"];} ?>" hidden>
+                        <button class="btn fas fa-user-edit text-sm" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit Profile Information" name="edit-user-selected" style="padding: 10px;" >Edit</button>
+                      </form>
                     </div>
                   </div>
                 </div>

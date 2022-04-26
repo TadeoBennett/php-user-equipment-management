@@ -118,7 +118,7 @@
       if (editflag1) { //you are an "admin"
         alert("Choose a USER to Edit from the users table");
       } else { //you are a basic user with rights of "everyone"
-        alert('Go to your profile and select "Edit Profile Information"');
+        alert('Go to your profile and select "Edit"');
       }
     } else if (document.title == "Edit Device" && editFlag2 == false) { // if you do not have the session variable necessary to edit
       alert("Choose a DEVICE to Edit from the devices table");
