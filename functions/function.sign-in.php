@@ -6,20 +6,20 @@ if(isset($_POST["sign-in-submit"])){
   $email = $_POST["em"];
   $password = $_POST["pwd"];
 
-  session_start();
-  if (isset($_SESSION['firstname'])) {
-    session_unset();
-  }
-  session_destroy();
-
   //function does a check on email and password
   $userSignIn = signIn($conn, $email, $password);
 
+  if (session_status() == PHP_SESSION_NONE) { //check if session was already started
+    session_start();
+  }
+  
   if($userSignIn == "emailError"){
-    header("Location: ../views/view.sign-in.php?error=emailError");
+    $_SESSION["failure"]["description"] = "email-signin-error";
+    header("Location: ../views/view.sign-in.php");
     exit();
   }else if($userSignIn == "passwordMatchError"){
-    header("Location: ../views/view.sign-in.php?error=passwordMatchError");
+    $_SESSION["failure"]["description"] = "password-signin-error";
+    header("Location: ../views/view.sign-in.php");
     exit();
   }else if($userSignIn == "success"){
     header("Location: ../index.php?signin=success");

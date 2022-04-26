@@ -15,16 +15,21 @@ if(isset($_POST["sign-up-submit"])){
   $passwordRepeated = $_POST["repeatpwd"];
   $user_level = 2; //every user signing up is a basic user(everyone); not an admin
   $status = 1; //user exists
-
+  
+  if (session_status() == PHP_SESSION_NONE) { //check if session was already started
+    session_start();
+  }
 
   //validate employee id
   if(!validateEmployeeId($employeeid)){
+    $_SESSION["failure"]["description"] = "staffID-signup-error";
     header("Location: ../views/view.sign-up.php?error=invalidID");
     exit();
   }
 
   //validate firstname and lastname
   if(!validateFirstname($firstname) ||  !validateLastName($lastname)){
+    $_SESSION["failure"]["description"] = "names-signup-error";
     header("Location: ../views/view.sign-up.php?error=emptyNameFields");
     exit();
   }
@@ -34,6 +39,7 @@ if(isset($_POST["sign-up-submit"])){
 
   //check if email exists
   if(emailExists($conn, $email)){
+    $_SESSION["failure"]["description"] = "email-exists-signup-error";
     //email should not be added if it exists
     header("Location: ../views/view.sign-up.php?error=emailExists");
     exit();
@@ -41,12 +47,14 @@ if(isset($_POST["sign-up-submit"])){
 
   //check if password is the right length
   if(!validatePasswordLength($password)){
+    $_SESSION["failure"]["description"] = "password-length-signup-error";
     header("Location: ../views/view.sign-up.php?error=passwordLengthError");
     exit();
   }
 
   //check if password is valid
   if(!validateSignUpPasswords($password, $passwordRepeated)){
+    $_SESSION["failure"]["description"] = "password-repeat-signup-error";
     header("Location: ../views/view.sign-up.php?error=passwordDontMatch");
     exit();
   }
@@ -55,9 +63,11 @@ if(isset($_POST["sign-up-submit"])){
   $userCreation = signUp($conn, $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $user_level, $password, $status);
 
   if ($userCreation == "stmterror") {
+    $_SESSION["failure"]["description"] = "stmt-signup-error";
     header("Location: ../views/view.sign-up.php?error=stmtFailed");
     exit();
   } else if ($userCreation == "success") {
+    $_SESSION["success"]["description"] = "user-signup-sucess";
     header("Location: ../views/view.sign-in.php?signup=success");
     exit();
   }

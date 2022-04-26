@@ -3,7 +3,7 @@
 // -----------------------------FUNCTIONS TO SIGN UP USER-------------------------------//
 //returns true if employee id is valid
 function validateEmployeeId($employeeid){
-  if(strlen($employeeid) < 4){
+  if(strlen($employeeid) < 4 || strlen($employeeid) > 4){
     return false;
   }
   return true;
@@ -12,7 +12,8 @@ function validateEmployeeId($employeeid){
 //returns true if first/lastname is valid
 function validateFirstName($firstname)
 {
-  if (empty($firstname)) {
+
+  if (empty($firstname) || trim($firstname) == "") {
     return false;
   }
   return true;
@@ -21,7 +22,7 @@ function validateFirstName($firstname)
 
 function validateLastName($lastname)
 {
-  if (empty($lastname)) {
+  if (empty($lastname)  || trim($lastname) == "") {
     return false;
   }
   return true;
@@ -180,7 +181,6 @@ function signIn($conn, $email, $password)
     //if the password does not match with the password in database record
     return "passwordMatchError";
   } else {
-    //CREATE SESSION VARIABLE ARRAY THAT HOLDS THE RECORD FOR THE SIGNED IN USER
     if (session_status() == PHP_SESSION_NONE) { //check if session was already started
       session_start();
     }

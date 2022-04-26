@@ -35,6 +35,9 @@ include_once "../functions.php";
   <link id="pagestyle" href="../includes/css/material-dashboard.css?v=3.0.0" rel="stylesheet" />
   <!-- AJAX CDN -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- SWEET ALERT -->
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 </head>
 
