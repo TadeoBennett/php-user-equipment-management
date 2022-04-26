@@ -92,6 +92,9 @@ $_SESSION["currentPage"] = "tables";
               <button class="nav-link" id="desktops-tab" data-bs-toggle="tab" data-bs-target="#desktops" type="button" role="tab" aria-controls="desktops" aria-selected="false">Desktops</button>
             </li>
             <li class="nav-item" role="presentation">
+              <button class="nav-link" id="bags-tab" data-bs-toggle="tab" data-bs-target="#bags" type="button" role="tab" aria-controls="bags" aria-selected="false">Bags</button>
+            </li>
+            <li class="nav-item" role="presentation">
               <button class="nav-link" id="ups-tab" data-bs-toggle="tab" data-bs-target="#ups" type="button" role="tab" aria-controls="ups" aria-selected="false">UPS</button>
             </li>
             <li class="nav-item" role="presentation">
@@ -179,6 +182,25 @@ $_SESSION["currentPage"] = "tables";
                   </div>
                 </div>
                 <div class="card-body pt-1 p-3 w-100 row m-0 auto" id="displayDesktops" style="max-height: 520px;">
+                  <!-- run ajax code -->
+                </div>
+              </div>
+              <!--  -->
+            </div>
+
+            <div class="tab-pane fade" id="bags" role="tabpanel" aria-labelledby="bags-tab">
+              <!--  -->
+              <div class="card">
+                <div class="card-header">
+                  <div class="row">
+                    <div class="col-4">
+                      <div class="input-group input-group-outline col-4">
+                        <input type="text" class="form-control" placeholder="search by device tag ID..." id="searchBags">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-body pt-1 p-3 w-100 row m-0 auto" id="displayBags" style="max-height: 520px;">
                   <!-- run ajax code -->
                 </div>
               </div>

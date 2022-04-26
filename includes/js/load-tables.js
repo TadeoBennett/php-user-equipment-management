@@ -58,6 +58,11 @@ function fill_searchUnregisteredDevices(Value){
 
   $('#displayUnregisteredDevices').hide();
 }
+function fill_searchBags(Value){
+  $('#searchBags').val(Value);  
+
+  $('#displayBags').hide();
+}
 
 
 
@@ -258,56 +263,6 @@ $(document).ready(function(){
   })
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // ----------------- FOR SHOWING DESKTOPS -----------------------//
@@ -847,6 +802,67 @@ $(document).ready(function(){
   })
 
 })
+
+
+// ----------------- FOR SHOWING BAGS -----------------------//
+
+
+$(document).ready(function(){
+  $("#searchBags").keyup(function(){
+
+    var tagID = $('#searchBags').val();
+
+    if(tagID != ""){
+
+      $.ajax({
+        type: "POST",
+
+        url: "../class.views/load-tables/load.all-bags.php",
+
+        data: {
+          search: tagID
+        },
+
+        success: function(html){
+          $("#displayBags").html(html).show();
+        }
+      })
+    }else{ //search box is empty
+      console.log("empty field");
+      $.ajax({
+        type: "POST",
+
+        url: "../class.views/load-tables/load.all-bags.php",
+
+        data: {
+          load: 1
+        },
+
+        success: function(html){
+          $("#displayBags").html(html).show();
+        }
+      })
+    }
+
+  })
+  // ---------------------------------------
+
+  $.ajax({
+    type: "POST",
+
+    url: "../class.views/load-tables/load.all-bags.php",
+
+    data: {
+      load: 1
+    },
+
+    success: function(html){
+      $("#displayBags").html(html).show();
+    }
+  })
+
+})
+
 
 
 
