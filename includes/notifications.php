@@ -21,12 +21,32 @@
             });
         </script>
         <?php }//end if ?>
-        <!-- edit success -->
+        <!-- edit user success -->
         <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "edituser-edit-success")){  ?>
         <script>
             swal({
                 title: "EDIT USER SUCCESS!",
                 text: "User has been edited.",
+                icon: "success",
+            });
+        </script>
+        <?php }//end if ?>
+        <!-- add user success -->
+        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "adduser-add-success")){  ?>
+        <script>
+            swal({
+                title: "ADD USER SUCCESS!",
+                text: "User has been edited.",
+                icon: "success",
+            });
+        </script>
+        <?php }//end if ?>
+        <!-- add device success -->
+        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "addDevice-add-success")){  ?>
+        <script>
+            swal({
+                title: "ADD DEVICE SUCCESS!",
+                text: "Device has been added.",
                 icon: "success",
             });
         </script>
@@ -203,6 +223,113 @@
                 });
             </script>
         <?php }//end if ?>
+
+        <!-- ----------------- add-user failures --------------------- -->
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "staffID-adduser-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD USER FAILED!",
+                    text: "Employee/Staff ID does meet required character length(4).",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "names-adduser-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD USER FAILED!",
+                    text: "Neither first name or last name fields must be empty.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "email-exists-adduser-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD USER FAILED!",
+                    text: "The entered email already exists.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "password-length-adduser-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD USER FAILED!",
+                    text: "The password length must be 8 to 20 characters long.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "password-repeat-adduser-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD USER FAILED!",
+                    text: "The entered passwords did not match.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "stmt-adduser-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD USER FAILED!",
+                    text: "STMT Error Occured. Could not add this user.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+
+        <!-- ----------------- add-device failures --------------------- -->
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "addDevice-tagexists-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD DEVICE FAILED!",
+                    text: "A device with that tag already exists.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "stmt0-addDevice-error")){  ?>
+            <script>
+                swal({
+                    title: "ADD DEVICE FAILED!",
+                    text: "STMT-0 Error Occured. Could not add this device.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         
         
         

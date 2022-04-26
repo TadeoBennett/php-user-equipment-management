@@ -14,17 +14,22 @@ if(isset($_POST["add-user-submit"])){
     $repeatpassword = $_POST["repeatpwd"];
     $user_level = 2; //every user signing up is a basic user(everyone); not an admin
     $status = 1; //user exists
-
+    
+    if (session_status() == PHP_SESSION_NONE) { //check if session was already started
+      session_start();
+    }
 
   //validate employee id
   if(!validateEmployeeId($employeeid)){
-    header("Location: ../views/view.add-user.php?error=invalidID");
+    $_SESSION["failure"]["description"] = "staffID-adduser-error";
+    header("Location: ../views/view.add-user.php?toolong");
     exit();
   }
 
   //validate firstname and lastname
   if(!validateFirstname($firstname) ||  !validateLastName($lastname)){
-    header("Location: ../views/view.add-user.php?error=emptyNameFields");
+    $_SESSION["failure"]["description"] = "names-adduser-error";
+    header("Location: ../views/view.add-user.php");
     exit();
   }
 
@@ -33,21 +38,24 @@ if(isset($_POST["add-user-submit"])){
 
   //check if email exists
   if(emailExists($conn, $email)){
+    $_SESSION["failure"]["description"] = "email-exists-adduser-error";
     //email should not be added if it exists
-    header("Location: ../views/view.add-user.php?error=emailExists");
+    header("Location: ../views/view.add-user.php");
     exit();
   }
 
   //check if password is the right length
   if(!validatePasswordLength($password)){
+    $_SESSION["failure"]["description"] = "password-length-adduser-error";
     //email should not be added if it exists
-    header("Location: ../views/view.add-user.php?error=passwordLengthError");
+    header("Location: ../views/view.add-user.php");
     exit();
   }
 
   //check if password is valid
   if(!validateSignUpPasswords($password, $repeatpassword)){
-    header("Location: ../views/view.add-user.php?error=passwordDontMatch");
+    $_SESSION["failure"]["description"] = "password-repeat-adduser-error";
+    header("Location: ../views/view.add-user.php");
     exit();
   }
 
@@ -55,10 +63,12 @@ if(isset($_POST["add-user-submit"])){
     $userCreation = signUp($conn, $employeeid, $username, $firstname, $lastname, $email, $department_id, $job_title, $sex, $user_level, $password, $status);
 
     if ($userCreation == "stmterror") {
-      header("Location: ../views/view.notifications.php?error=stmtFailed");
+      $_SESSION["failure"]["description"] = "stmt-adduser-error";
+      header("Location: ../views/view.add-user.php?error=stmtFailed");
       exit();
     } else if ($userCreation == "success") {
-      header("Location: ../views/view.notifications.php?addeduser=success");
+      $_SESSION["success"]["description"] = "adduser-add-success";
+      header("Location: ../views/view.add-user.php");
       exit();
     }
   

@@ -13,22 +13,24 @@ if (isset($_POST["add-device-submit"])) {
     $device_registerflag = 0;
     $status = 1;
 
+    if (session_status() == PHP_SESSION_NONE) { //check if session was already started; I put it again below
+        session_start();
+    }
+
     //if these variables are 0, place them as null in the DB
     if($device_yearswarranty == 0){$device_yearswarranty = NULL;}
     if($device_registrantID == 0){$device_registrantID = NULL;}
-    if($device_asset_tag == 0){$device_asset_tag = NULL;}else{
+    if($device_asset_tag == 0 || empty($device_asset_tag) || trim($device_asset_tag) == ""){$device_asset_tag = NULL;}else{
         //check if the asset tag exists
         $tagExists = tagExists($conn, $device_asset_tag);
         
-        if($tagExists){//if it exists redirect back to add-device page
-            header("Location: ../views/view.add-device.php?error=tagExists");
+        if($tagExists != false){//if it exists redirect back to add-device page
+            $_SESSION["failure"]["description"] = "addDevice-tagexists-error";
+            header("Location: ../views/view.add-device.php");
             exit();
         }else{ //if it does not exist then add that asset tag
             addAssetTag($conn, $device_asset_tag);
         }
-
-        //else add tag to device
-        
     }
 
     if (!($_FILES['registrant-form']['size'] == 0)) { //if the file input is not empty
@@ -60,8 +62,9 @@ if (isset($_POST["add-device-submit"])) {
     $deviceAdded = addDevice($conn, $device_type, $device_date_received, $device_name, $device_asset_tag, $device_registerflag, $device_date_assigned, $filename, $device_yearswarranty, $device_registrantID, $status);
     
     
-    if($deviceAdded == "stmterror"){
-        header("Location: ../views/view.notifications.php?error=deviceNOTadded");
+    if($deviceAdded ==  "stmterror"){
+        $_SESSION["failure"]["description"] = "stmt0-addDevice-error";
+        header("Location: ../views/view.notifications.php?error=stmterror0");
         exit();
     }else if($deviceAdded == "success"){//device has been added 
 
@@ -102,8 +105,8 @@ if (isset($_POST["add-device-submit"])) {
         }
         //--------------------- Done Editing the Device Specs --------------------------//
         
-        
-        header("Location: ../views/view.notifications.php");
+        $_SESSION["success"]["description"] = "addDevice-add-success";
+        header("Location: ../views/view.add-device.php");
         exit();
     }
 
