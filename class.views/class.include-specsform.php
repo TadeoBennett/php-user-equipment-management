@@ -19,7 +19,7 @@ switch($devicetype_id){
         $getUPSSpecs = returnUPSSpecs($conn, $device_id);
         break;
     default:
-        exit(); //exit loading this page if the device does not have specs to edit(does not have id 1,2,3 or 4)
+        //exit loading this page if the device does not have specs to edit(does not have id 1,2,3 or 4)
 }
 $make = "";
 $model = "";
@@ -30,6 +30,8 @@ $hdd = "";
 $size = "";
 
 ?>
+
+<?php  if($devicetype_id == 1 || $devicetype_id == 2 || $devicetype_id == 3 || $devicetype_id == 4){  ?>
 
 <div class="col-lg-4 mt-3">
       <fieldset id="device-edit-add-specs">
@@ -117,3 +119,5 @@ $size = "";
         </div>
       </fieldset>
     </div>
+
+<?php }  ?>

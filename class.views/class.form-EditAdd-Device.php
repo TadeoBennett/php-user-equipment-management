@@ -18,9 +18,9 @@ if(isset($_SESSION["deviceEditDetails"]) && $_SESSION["currentPage"] == "edit-de
             </div>
             <div class="form-group col-md-4 mb-4">
               <label for="inputTAG">Asset Tag #</label>
-              <input type="text" class="form-control border-bottom" id="inputTAG" placeholder="device name..." name="asset_tag" required
-              value="<?php if($intentionToEdit){echo $_SESSION["deviceEditDetails"]["Device_name"];}?>"
-              <?php if($intentionToEdit){if($_SESSION["deviceEditDetails"]["Device_AssetTag_id"] == NULL){echo ' disabled ';}} //disable inputting tags if one exists on this device?>
+              <input type="text" class="form-control border-bottom" id="inputTAG" placeholder="device tag id..." name="asset_tag"
+              value="<?php if($intentionToEdit){echo $_SESSION["deviceEditDetails"]["Device_AssetTag_id"];}?>"
+              <?php if($intentionToEdit){if($_SESSION["deviceEditDetails"]["Device_AssetTag_id"] != NULL){echo ' disabled ';}} //disable inputting tags if one exists on this device?>
               >
             </div>
           </div>

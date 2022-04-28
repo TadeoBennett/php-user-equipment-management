@@ -7,7 +7,7 @@
     } else {
         while ($Devices = mysqli_fetch_assoc($getDevices)) {
             echo '<option value="' . $Devices["Device_Type_id"] .  '"';
-            if(isset($_SESSION["deviceEditDetails"]) && $_SESSION["currentPage"] == "edit-device"){if($Devices["Device_Type_id"] == $_SESSION["deviceEditDetails"]["Device_Type_id"]){echo 'selected';}}
+            if(isset($_SESSION["deviceEditDetails"]) && $_SESSION["currentPage"] == "edit-device"){if($Devices["Device_Type_id"] == $_SESSION["deviceEditDetails"]["Device_Type_id"]){echo ' selected ' ;}else{echo ' disabled ';}}
             echo '>' . $Devices["Device_Type_name"] . '</option>';
         }
     }

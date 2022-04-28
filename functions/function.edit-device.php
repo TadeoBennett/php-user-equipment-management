@@ -2,11 +2,6 @@
 include_once "../functions.php";
 include_once "./function.dbh.php";
 
-echo "Tester";
-print_r($_POST);
-
-exit();
-
 if (isset($_POST["edit-device-selected"])) {
     if (session_status() == PHP_SESSION_NONE) { //check if session was already started
       session_start();
@@ -54,15 +49,33 @@ if (isset($_POST["edit-device-selected"])) {
 
   
 }else if (isset($_POST["edit-device-submit"])) {
-    
+    if (session_status() == PHP_SESSION_NONE) { //check if session was already started
+        session_start();
+    }
+
     $device_type = $_POST["devicetype"];
     $device_name = $_POST["devicename"];
-    $device_asset_tag = $_POST["asset_tag"];
+
+    $device_asset_tag = "";
+    if(!isset($_POST["asset_tag"])){ //if the asset tag was not set, its because it was already set before
+        $device_asset_tag = $_SESSION["deviceEditDetails"]["Device_AssetTag_id"];
+    }else{
+        $device_asset_tag = $_POST["asset_tag"]; //if the tag was passed then a new tag was entered
+    }
     $device_date_received = $_POST["devicedatereceived"];
     $device_registrantID = $_POST["registrant"]; //will get the registrant ID
     $device_yearswarranty = $_POST["yrswt"];
-    $deleteDevice = $_POST["devicedeleteoption"];
-    $deleteForm = $_POST["deleteForm"];
+
+    $deleteDevice = "";
+    if(isset($_POST["devicedeleteoption"]) && $_POST["devicedeleteoption"] == "yes"){
+            $deleteDevice = "yes";
+    }
+
+    $deleteForm = "";
+    if(isset($_POST["deleteForm"]) && $_POST["deleteForm"] == "yes"){
+            $deleteForm = "yes";
+    }
+
     $currentFileName = "";
     if(isset($_POST["currentFormLocation"])){
         $currentFileName = $_POST["currentFormLocation"];
@@ -75,10 +88,6 @@ if (isset($_POST["edit-device-selected"])) {
     $device_registerflag = 0;
     $formExists = false;
     $status = 1;
-
-    if (session_status() == PHP_SESSION_NONE) { //check if session was already started
-        session_start();
-    }
 
     //check it the option to delete was selected first of all
     if($deleteDevice == "yes"){
@@ -114,7 +123,18 @@ if (isset($_POST["edit-device-selected"])) {
     //if these variables are 0, place them as null in the DB
     if($device_yearswarranty == 0){$device_yearswarranty = NULL;}
     if($device_registrantID == 0){$device_registrantID = NULL;}
-    if($device_asset_tag == 0){$device_asset_tag = NULL;}
+    if($device_asset_tag == 0 || empty($device_asset_tag) || trim($device_asset_tag) == ""){$device_asset_tag = NULL;}else{
+        //check if the asset tag exists
+        $tagExists = tagExists($conn, $device_asset_tag);
+        
+        if($tagExists != false){//if it exists redirect back to add-device page
+            $_SESSION["failure"]["description"] = "addDevice-tagexists-error";
+            header("Location: ../views/view.add-device.php");
+            exit();
+        }else{ //if it does not exist then add that asset tag
+            addAssetTag($conn, $device_asset_tag);
+        }
+    }
 
 
     //if the file input is not empty and a person was specified to give this device to
@@ -212,6 +232,9 @@ if (isset($_POST["edit-device-selected"])) {
 
     }
 
+    unset($_SESSION["deviceEditDetails"]);
+    header("Location: ../views/view.notifications.php?deletedEditKey");
+    exit();
 
     // DEVICE HAS BEEN EDITED ON DATABASE (AN OWNER MAY OR MAY NOT HAVE BEEN CHOSEN)
 
