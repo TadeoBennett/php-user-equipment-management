@@ -113,13 +113,19 @@ if (isset($_POST["edit-device-selected"])) {
 
     //check if the option to delete the existing form was selected
     if($deleteForm == "yes"){
-        if (unlink($currentFileName)) { //delete file
+        //move the form to an archive folder
+        $oldLocation = $currentFileName;
+        $newLocation = "../includes/pdfForms/archive/". $_SESSION["deviceEditDetails"]["Device_form_name"] . ".pdf";
+
+        copy($oldLocation, $newLocation); //copy file to new location
+
+        if (unlink($currentFileName)) { //delete file from original
             echo ''; //do nothing and continue
         } else {
             echo 'There was a error deleting the file ' . $filename;
         }
 
-        deleteForm($conn, $_SESSION["deviceEditDetails"]["Device_id"]); //sets the deviceformname as NULL in the database
+        deleteForm($conn, $_SESSION["deviceEditDetails"]["Device_id"], $_SESSION["deviceEditDetails"]["Device_form_name"]); //sets the deviceformname as NULL in the database
     }
 
 
@@ -179,6 +185,25 @@ if (isset($_POST["edit-device-selected"])) {
         if (file_exists($target_dir.$filename.'.pdf') || $formExists == true) {
             $device_registerflag = 1; //device was registered with an asset tag and user
         }else{
+            $filename = NULL; 
+        }
+    }else if (($device_registrantID == NULL || $device_asset_tag == NULL)) {//if user was not assigned or asset tag was not assigned 
+       if($currentFileName != ""){ //this means that a current file exists in the server
+            //move the form to an archive folder
+            $oldLocation = $currentFileName;
+            $newLocation = "../includes/pdfForms/archive/". $_SESSION["deviceEditDetails"]["Device_form_name"] . ".pdf";
+
+            copy($oldLocation, $newLocation); //copy file to new location
+
+            if (unlink($currentFileName)) { //delete file from original
+                echo ''; //do nothing and continue
+            } else {
+                echo 'There was a error deleting the file ' . $filename;
+            }
+
+             //sets the deviceformname as NULL in the database
+            deleteForm($conn, $_SESSION["deviceEditDetails"]["Device_id"], $_SESSION["deviceEditDetails"]["Device_form_name"]);
+      
             $filename = NULL;
         }
     }
@@ -207,11 +232,10 @@ if (isset($_POST["edit-device-selected"])) {
         header("Location: ../views/view.edit-device.php?error=stmt0");
         exit();
     }else if($deviceEdited == "success"){//device has been edited 
+
         // -------------------- Edit the Device Specs For that specific device type --------------------//
-        if (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = 1) {  //the device is a laptop or desktop
-	    print("Type 1");	
-	    exit();
-	    $id = NULL;
+        if (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = "2") {  //the device is a laptop or desktop
+	        $id = NULL;
             if(isset($_SESSION["recently_added_device_id"])){
                 $id = $_SESSION["recently_added_device_id"];
             }
@@ -222,20 +246,18 @@ if (isset($_POST["edit-device-selected"])) {
             $ram = $_POST["ram"];
             $hdd = $_POST["hdd"];
             $specsEdited = editComputerSpecs($conn, $id, $make, $model, $serial, $processor, $ram, $hdd);
-        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"]=2) {  //the device is a monitor
-	    print("type 2");	
-	    exit();
-	    if(isset($_SESSION["recently_added_device_id"])){
+        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = "1") {  //the device is a monitor
+            $id = NULL;
+            if(isset($_SESSION["recently_added_device_id"])){
                 $id = $_SESSION["recently_added_device_id"];
             }
             $size = $_POST["size"];
             $model = $_POST["model"];
             $serial = $_POST["serial"];
             $specsEdited = editScreenSpecs($conn, $id, $size, $model, $serial);
-        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"]=3) { //the device is a UPS
-	    print("type 3");
-            exit();
-	    if(isset($_SESSION["recently_added_device_id"])){
+        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = "3") { //the device is a UPS
+            $id = NULL;
+            if(isset($_SESSION["recently_added_device_id"])){
                 $id = $_SESSION["recently_added_device_id"];
             }
             $model = $_POST["model"];

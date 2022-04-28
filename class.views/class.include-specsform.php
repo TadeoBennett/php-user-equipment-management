@@ -54,13 +54,13 @@ $size = "";
                 $serial = $specs["Serial"];
               }
               echo '
-                <input type="text" hidden name="add-screen-specs" value="1">
+                <input type="text" hidden name="add-spec-type" value="1">
                 <label for="inputSize">Size</label>
                 <input id="inputSize" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Size..." value="'. $size .'" name="size">
                 <label for="inputModel">Model</label>
-                <input id="inputModel" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Model..." value="'. $model .'" name="model">
+                <input id="inputModel" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Model..." value="'. $model .'" name="screen_model">
                 <label for="inputSerial">Serial</label>
-                <input id="inputSerial" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Serial..." value="'. $serial .'" name="serial">
+                <input id="inputSerial" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Serial..." value="'. $serial .'" name="screen_serial">
               ';
 
             }elseif(isset($getComputerSpecs)){
@@ -82,13 +82,13 @@ $size = "";
               }
               
               echo '
-                <input type="text" hidden name="add-computer-specs" value="1">
+                <input type="text" hidden name="add-spec-type" value="2">
                 <label for="inputMake">Make</label>
                 <input id="inputMake" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Make..." value="'. $make .'" name="make">
                 <label for="inputModel">Model</label>
-                <input id="inputModel" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Model..." value="'. $model .'" name="model">
+                <input id="inputModel" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Model..." value="'. $model .'" name="comp_model">
                 <label for="inputSerial">Serial</label>
-                <input id="inputSerial" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Serial..." value="'. $serial .'" name="serial">
+                <input id="inputSerial" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Serial..." value="'. $serial .'" name="comp_serial">
                 <label for="inputProcessor">Processor</label>
                 <input id="inputProcessor" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Processor..." value="'. $processor .'" name="processor">
                 <label for="inputRAM">RAM</label>
@@ -107,11 +107,11 @@ $size = "";
               }
 
               echo '
-              `<input type="text" hidden name="add-ups-specs" value="1">
+              `<input type="text" hidden name="add-spec-type" value="3">
                 <label for="inputModel">Model</label>
-                <input id="inputModel" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Model..." value="'. $model .'" name="model">
+                <input id="inputModel" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Model..." value="'. $model .'" name="ups_model">
                 <label for="inputSerial">Serial</label>
-                <input id="inputSerial" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Serial..." value="'. $serial .'" name="serial">
+                <input id="inputSerial" type="text" class="form-control border-bottom mb-4 p-0" placeholder="Device Serial..." value="'. $serial .'" name="ups_serial">
               ';
             }
             ?>

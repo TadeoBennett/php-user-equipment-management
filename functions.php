@@ -464,18 +464,6 @@ function returnAllDeviceTypes($conn){
   }
 }
 
-//returns query result(device asset tag ids that are available and exists with a status of 1)
-// function returnAllAvailableAssetTags($conn){
-//   $sql = "SELECT Device_AssetTag_id FROM `asset tags` WHERE Status = 1 && Device_AssetTag_availability = 1 ORDER BY Device_AssetTag_id";
-  
-//   $result = mysqli_query($conn, $sql);
-//   if (mysqli_num_rows($result) > 0) {
-//     return $result;
-//   }else{
-//     return false;
-//   }
-// }
-
 //returns success if the tagID provided was made available
 function makeTagAvailable($conn, $tagID){
   if($tagID == NULL){
@@ -492,13 +480,11 @@ function makeTagAvailable($conn, $tagID){
 }
 
 //returns success if the pdfForm was removed from the appropriate directory
-function deleteForm($conn, $device_id){
+function deleteForm($conn, $device_id, $device_formname){
   $sql = "UPDATE devices SET Device_form_name = NULL WHERE Device_id = $device_id";
   if ($conn->query($sql) === true) {
-    
     return "success";
   } else {
-    
     return "error"; //. $conn->error;
   }
 }
