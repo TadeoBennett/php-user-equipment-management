@@ -234,7 +234,7 @@ if (isset($_POST["edit-device-selected"])) {
     }else if($deviceEdited == "success"){//device has been edited 
 
         // -------------------- Edit the Device Specs For that specific device type --------------------//
-        if (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = "2") {  //the device is a laptop or desktop
+        if (isset($_POST["add-spec-type"]) && ($_POST["add-spec-type"] == 2 || $_POST["add-spec-type"] == 3)) {  //the device is a laptop or desktop
 	        $id = NULL;
             if(isset($_SESSION["recently_added_device_id"])){
                 $id = $_SESSION["recently_added_device_id"];
@@ -246,7 +246,7 @@ if (isset($_POST["edit-device-selected"])) {
             $ram = $_POST["ram"];
             $hdd = $_POST["hdd"];
             $specsEdited = editComputerSpecs($conn, $id, $make, $model, $serial, $processor, $ram, $hdd);
-        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = "1") {  //the device is a monitor
+        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] == 1) {  //the device is a monitor
             $id = NULL;
             if(isset($_SESSION["recently_added_device_id"])){
                 $id = $_SESSION["recently_added_device_id"];
@@ -255,7 +255,7 @@ if (isset($_POST["edit-device-selected"])) {
             $model = $_POST["model"];
             $serial = $_POST["serial"];
             $specsEdited = editScreenSpecs($conn, $id, $size, $model, $serial);
-        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = "3") { //the device is a UPS
+        }elseif (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] == 4) { //the device is a UPS
             $id = NULL;
             if(isset($_SESSION["recently_added_device_id"])){
                 $id = $_SESSION["recently_added_device_id"];

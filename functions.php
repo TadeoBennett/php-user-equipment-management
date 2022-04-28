@@ -420,7 +420,44 @@ function returnDeviceDetailsArrayForEditing($conn, $device_id){
     $result = mysqli_query($conn, $sql);
     if (mysqli_num_rows($result) > 0) {
       $row = mysqli_fetch_assoc($result);
-      return $row;
+      if ($row["Device_Type_id"] == 1) { //-------------------monitor
+        //the device has specs that should be returned
+        $sql = "SELECT devices.Device_id, devices.Device_Type_id, devices.Device_name, devices.Device_AssetTag_id, devices.Device_date_received, devices.Device_assignment_date, devices.Device_yearswarranty, devices.Device_form_name, devices.User_id,
+         `screen specs`.`Size`, `screen specs`.`Model`, `screen specs`.`Serial`
+        FROM devices 
+        INNER JOIN `screen specs` ON devices.Device_id = `screen specs`.`Device_id`
+        WHERE devices.Device_id = $device_id;";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          return $row;
+        }
+      }else if ($row["Device_Type_id"] == 2 || $row["Device_Type_id"] == 3) { //------------laptop/desktop
+        //the device has specs that should be returned
+        $sql = "SELECT devices.Device_id, devices.Device_Type_id, devices.Device_name, devices.Device_AssetTag_id, devices.Device_date_received, devices.Device_assignment_date, devices.Device_yearswarranty, devices.Device_form_name, devices.User_id,
+         `computer specs`.`Make`, `computer specs`.`Model`, `computer specs`.`Serial`, `computer specs`.`Processor`, `computer specs`.`RAM`, `computer specs`.`HDD`
+        FROM devices 
+        INNER JOIN `computer specs` ON devices.Device_id = `computer specs`.`Device_id`
+        WHERE devices.Device_id = $device_id;";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          return $row;
+        }
+      }else if ($row["Device_Type_id"] == 4) { //----------------------------UPS
+        //the device has specs that should be returned
+        $sql = "SELECT devices.Device_id, devices.Device_Type_id, devices.Device_name, devices.Device_AssetTag_id, devices.Device_date_received, devices.Device_assignment_date, devices.Device_yearswarranty, devices.Device_form_name, devices.User_id, `ups specs`.`Model`, `ups specs`.`Serial`
+        FROM devices 
+        INNER JOIN `ups specs` ON devices.Device_id = `ups specs`.`Device_id`
+        WHERE devices.Device_id = $device_id;";
+        $result = mysqli_query($conn, $sql);
+        if (mysqli_num_rows($result) > 0) {
+          $row = mysqli_fetch_assoc($result);
+          return $row;
+        }
+      }else{
+        return $row;
+      }
     }else{
       return false;
     }
