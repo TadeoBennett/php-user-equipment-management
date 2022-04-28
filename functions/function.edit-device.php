@@ -145,13 +145,15 @@ if (isset($_POST["edit-device-selected"])) {
 
 
     //if the file input is not empty and a person was specified to give this device to
-    if (!($_FILES['registrant-form']['size'] == 0) && !is_null($device_registrantID) && !is_null($device_asset_tag)) { 
+    if (!($_FILES['registrant-form']['size'] == 0) && !is_null($device_registrantID) && !is_null($device_asset_tag)) {
         //making the appropriate file name
         $filename = makeFileName($conn, $device_registrantID, $device_asset_tag);
 
         if ($filename == "unknownForm") {
             $filename = NULL;
+            
         }else{
+            
             $target_dir = "../includes/pdfForms/";
             $file = $_FILES['registrant-form']['name'];
             $path = pathinfo($file);
@@ -165,11 +167,15 @@ if (isset($_POST["edit-device-selected"])) {
     
     //if user was assigned, asset tag was assigned 
     if ($device_registrantID != NULL && $device_asset_tag != NULL) {
+
+        //check if the file exists in the database
         $filename = makeFileName($conn, $device_registrantID, $device_asset_tag);
         $target_dir = "../includes/pdfForms/";
         //if a form exists with a matching id and asset tag number or a file was uploaded
         if (file_exists($target_dir.$filename.'.pdf') || $formExists == true) {
             $device_registerflag = 1; //device was registered with an asset tag and user
+        }else{
+            $filename = NULL;
         }
     }
 

@@ -25,11 +25,3 @@
 
 
 <?php include "../includes/notifications.php"; ?>
-
-<script >
-  // swal({
-  //                   title: "SIGN IN FAILED!",
-  //                   text: "Email does not exist",
-  //                   icon: "error",
-  //               });
-</script>
