@@ -153,12 +153,17 @@ $_SESSION["currentPage"] = "profile";
                             echo '
                             <li class="list-group-item border-0 d-flex p-3 mb-2 bg-gray-200 border-radius-lg">
                               <div class="d-flex flex-column">
-                                <h6 class="mb-1 text-sm">.' . $row["Device_name"] . '</h6>
+                                <h6 class="mb-1 text-sm">' . $row["Device_name"] . '</h6>
                                 <span class="mb-2 text-xs">Device Number ID: <span class="text-dark font-weight-bold ms-sm-2">' . $row["Device_AssetTag_id"] . '</span></span>
-                              </div>
+                              </div>';
+                              if (isset($_SESSION["userRecord"]["User_level_id"])){
+                                if($_SESSION["userRecord"]["User_level_id"]  == 1){
+                                echo '
                               <div class="ms-auto text-end">
                                 <a class="btn btn-link text-dark px-3 mb-0" href="javascript:;"><i class="material-icons text-sm me-2">edit</i>Edit</a>
-                              </div>
+                              </div>';
+                                }}
+                              echo '
                             </li>';
                           }
                         }else{

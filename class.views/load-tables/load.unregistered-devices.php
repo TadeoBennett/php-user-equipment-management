@@ -49,9 +49,19 @@ if (isset($_POST["load"]) || isset($_POST["search"])) {
                       <div class="ms-auto text-end">
                         <form  action="../functions/function.edit-device.php" method="post">
                           <input name="devicechangeID" value="'.$row["Device_id"].'" hidden>
-                          <input name="deviceTagID" value="'.$row["Device_AssetTag_id"].'" hidden>
-                          <button class="btn btn-link text-dark px-3 mb-0" name="edit-device-selected"><i class="material-icons text-sm me-2">edit</i>Edit</button>
-                          <button class="btn btn-link text-danger text-gradient px-3 mb-0" name="delete-device-selected" style="display: inline"><i class="material-icons text-sm me-2">delete</i>Delete</button>
+                          <input name="deviceTagID" value="'.$row["Device_AssetTag_id"].'" hidden>';
+                          if (session_status() == PHP_SESSION_NONE) { //check if session was already started
+                            session_start();
+                          }
+                          if(isset($_SESSION["userRecord"])){
+                            if ($_SESSION["userRecord"]["User_level_id"] == 1) {
+                              echo '
+                              <button class="btn btn-link text-dark px-3 mb-0" name="edit-device-selected"><i class="material-icons text-sm me-2">edit</i>Edit</button>
+                              <button class="btn btn-link text-danger text-gradient px-3 mb-0" name="delete-device-selected" style="display: inline"><i class="material-icons text-sm me-2">delete</i>Delete</button>
+                              ';
+                            }
+                          }
+                          echo '
                           </form>
                       </div>
                     </div>
