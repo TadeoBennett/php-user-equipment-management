@@ -23,6 +23,10 @@ if(isset($_POST["edit-user-selected"])){
   require_once '../functions.php';
   require_once './function.dbh.php';
 
+  if (session_status() == PHP_SESSION_NONE) { //check if session was already started
+    session_start();
+  }
+
   //uses the ID of the user and the database connection to delete the user
   deleteUserWithID($conn, $_POST["userchangeID"]);
 

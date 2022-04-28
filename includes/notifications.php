@@ -51,6 +51,26 @@
             });
         </script>
         <?php }//end if ?>
+        <!-- delete device success -->
+        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "editdevice-delete-success")){  ?>
+        <script>
+            Swal.fire({
+                title: "DELETE DEVICE SUCCESS!",
+                text: "Device has been deleted.",
+                icon: "success",
+            });
+        </script>
+        <?php }//end if ?>
+        <!-- edit device success -->
+        <?php if(isset($_SESSION["success"]["description"]) && ($_SESSION["success"]["description"] == "editdevice-edit-success")){  ?>
+        <script>
+            Swal.fire({
+                title: "EDIT DEVICE SUCCESS!",
+                text: "Device has been edited.",
+                icon: "success",
+            });
+        </script>
+        <?php }//end if ?>
         
 
 
@@ -299,6 +319,45 @@
                 });
             </script>
         <?php }//end if ?>
+
+        <!-- ----------------- edit-device failures --------------------- -->
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "editDevice-noarray-error")){  ?>
+            <script>
+                Swal.fire({
+                    title: "RETURN DETAILS FAILED!",
+                    text: "No array error. Could not return details for this device.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "editDevice-deletedevice-error")){  ?>
+            <script>
+                Swal.fire({
+                    title: "DELETE DEVICE FAILED!",
+                    text: "Could not delete device",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "editDevice-tagexists-error")){  ?>
+            <script>
+                Swal.fire({
+                    title: "EDIT DEVICE FAILED!",
+                    text: "A device with that tag already exists.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+        <?php if(isset($_SESSION["failure"]["description"]) && ($_SESSION["failure"]["description"] == "stmt0-editDevice-error")){  ?>
+            <script>
+                Swal.fire({
+                    title: "EDIT DEVICE FAILED!",
+                    text: "STMT-0 Error Occured. Could not edit this device.",
+                    icon: "error",
+                });
+            </script>
+        <?php }//end if ?>
+
 
 
 

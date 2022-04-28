@@ -10,15 +10,16 @@ if (isset($_POST["edit-device-selected"])) {
     //uses the ID of the device and the database connection to create and save an array with the device's details
     $_SESSION["deviceEditDetails"] = returnDeviceDetailsArrayForEditing($conn, $_POST["devicechangeID"]);
     if ($_SESSION["deviceEditDetails"] == false) {
-        header("Location: ../views/view.edit-device.php?error=noarray");
+        $_SESSION["failure"]["description"] = "editDevice-noarray-error";
+        header("Location: ../views/view.edit-device.php");
         exit();
     }else{
       //edit device page form should be accessible
-      header("Location: ../views/view.edit-device.php?editaccess");
+      header("Location: ../views/view.edit-device.php");
       exit();
     }
   
-}else if(isset($_POST["delete-device-selected"])){
+}else if(isset($_POST["delete-device-selected"])){ /////////////////////////////////MUST EDIT TO HANDLE FORM DELETION AND ARCHIVING; ERROR PRONE
     $deviceID = $_POST["devicechangeID"];
     $deviceTagID = $_POST["deviceTagID"];
 
@@ -90,9 +91,10 @@ if (isset($_POST["edit-device-selected"])) {
     $status = 1;
 
     //check it the option to delete was selected first of all
-    if($deleteDevice == "yes"){
+    if($deleteDevice == "yes"){//////////////////////////////////////////////////////////////////////////////////////////////must CHANGE; ERROR PRONE
         $checkdeletion =  deleteDeviceWithID($conn, $_SESSION["deviceEditDetails"]["Device_id"]);
         if($checkdeletion == "error"){
+            $_SESSION["failure"]["description"] = "editDevice-deletedevice-error";
             header("Location: ../views/view.edit-device.php?error");
             exit();
         }else if($checkdeletion == "success"){
@@ -101,8 +103,9 @@ if (isset($_POST["edit-device-selected"])) {
                 makeTagAvailable($conn, $_SESSION["deviceEditDetails"]["Device_AssetTag_id"]);
             }
 
+            $_SESSION["success"]["description"] = "editDevice-delete-success";
             unset($_SESSION["deviceEditDetails"]); //delete the sesssion variable with the details of the user to edit
-            header("Location: ../views/view.notifications.php?deletesuccess");
+            header("Location: ../views/view.notifications.php");
             exit();
         }
     }
@@ -135,7 +138,8 @@ if (isset($_POST["edit-device-selected"])) {
             $tagExists = tagExists($conn, $device_asset_tag);
             
             if($tagExists != false){ //if it exists redirect back to edit-device page
-                header("Location: ../views/view.notifications.php?tagExists");
+                $_SESSION["failure"]["description"] = "editDevice-tagexists-error";
+                header("Location: ../views/view.edit-device.php");
                 exit();
             }else{ //if it does not exist then add that asset tag
                 addAssetTag($conn, $device_asset_tag);
@@ -199,13 +203,10 @@ if (isset($_POST["edit-device-selected"])) {
     $deviceEdited = editDeviceWithID($conn, $_SESSION["deviceEditDetails"]["Device_id"], $device_type, $device_date_received, $device_name, $device_asset_tag, $device_registerflag, $device_date_assigned, $filename, $device_yearswarranty, $device_registrantID);
 
     if($deviceEdited == "stmterror"){
-        header("Location: ../views/view.notifications.php?error=deviceNOTedited");
+        $_SESSION["failure"]["description"] = "stmt0-editDevice-error";
+        header("Location: ../views/view.edit-device.php?error=stmt0");
         exit();
     }else if($deviceEdited == "success"){//device has been edited 
-
-        if (session_status() == PHP_SESSION_NONE) { //check if session was already started
-            session_start();
-        }
         // -------------------- Edit the Device Specs For that specific device type --------------------//
         if (isset($_POST["add-spec-type"]) && $_POST["add-spec-type"] = 1) {  //the device is a laptop or desktop
 	    print("Type 1");	
@@ -245,8 +246,9 @@ if (isset($_POST["edit-device-selected"])) {
 
     }
 
+    $_SESSION["success"]["description"] = "editdevice-edit-success";
     unset($_SESSION["deviceEditDetails"]);
-    header("Location: ../views/view.notifications.php?deletedEditKey");
+    header("Location: ../views/view.tables.php");
     exit();
 
     // DEVICE HAS BEEN EDITED ON DATABASE (AN OWNER MAY OR MAY NOT HAVE BEEN CHOSEN)
@@ -259,6 +261,6 @@ if (isset($_POST["edit-device-selected"])) {
     header("Location: ../views/view.edit-device.php?deletedEditKey");
     exit();
 }else{
-    header("Location: ../views/view.edit-device.php?default");
+    header("Location: ../views/view.edit-device.php");
     exit();
 }
