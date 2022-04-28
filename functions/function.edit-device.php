@@ -124,15 +124,22 @@ if (isset($_POST["edit-device-selected"])) {
     if($device_yearswarranty == 0){$device_yearswarranty = NULL;}
     if($device_registrantID == 0){$device_registrantID = NULL;}
     if($device_asset_tag == 0 || empty($device_asset_tag) || trim($device_asset_tag) == ""){$device_asset_tag = NULL;}else{
-        //check if the asset tag exists
-        $tagExists = tagExists($conn, $device_asset_tag);
-        
-        if($tagExists != false){//if it exists redirect back to add-device page
-            $_SESSION["failure"]["description"] = "addDevice-tagexists-error";
-            header("Location: ../views/view.add-device.php");
-            exit();
-        }else{ //if it does not exist then add that asset tag
-            addAssetTag($conn, $device_asset_tag);
+        //an asset tag was read
+
+        if($_SESSION["deviceEditDetails"]["Device_AssetTag_id"]){ //if the asset tag is the same as the asset tag read from the database
+            //do nothing and leave the asset tag
+        }else{
+            //the asset tag is different from the asset tag gotten from the database
+
+            //check if the asset tag exists
+            $tagExists = tagExists($conn, $device_asset_tag);
+            
+            if($tagExists != false){ //if it exists redirect back to edit-device page
+                header("Location: ../views/view.notifications.php?tagExists");
+                exit();
+            }else{ //if it does not exist then add that asset tag
+                addAssetTag($conn, $device_asset_tag);
+            }
         }
     }
 
